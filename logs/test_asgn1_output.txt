@@ -1,0 +1,145 @@
+ ASSIGNMENT 1 - TASK 1 IOCTL TEST
+========================================
+
+===== 1. LOAD MODULE =====
+asgn1: driver loaded, major=241
+[PASS] asgn1_driver loaded
+[PASS] /dev/asgn1 exists
+crw-------    1 root     0         241,   0 Oct 13 13:54 [1;35m/dev/asgn1[m
+
+===== 2. GET VERSION =====
+asgn1_driver: device opened (open_count=1)
+asgn1_driver: ioctl GET_VERSION
+asgn1_driver: device closed
+GET_VERSION: asgn1_driver v1.0
+[PASS] GET_VERSION
+
+===== 3. GET STATS =====
+asgn1_driver: device opened (open_count=2)
+asgn1_driver: ioctl GET_STATS
+asgn1_driver: device closed
+GET_STATS:
+  open_count      = 2
+  write_count     = 0
+  read_count      = 0
+  buffer_len      = 0
+  last_write_size = 0
+[PASS] GET_STATS contains open_count
+[PASS] GET_STATS contains write_count
+[PASS] GET_STATS contains read_count
+[PASS] GET_STATS contains buffer_len
+[PASS] GET_STATS contains last_write_size
+
+===== 4. MODE 0 - KERNEL MODE =====
+asgn1_driver: device opened (open_count=3)
+asgn1_driver: ioctl SET_MODE mode=0
+SET_MODE: 0 PASS
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=4)
+asgn1_driver: write 5 bytes, mode=0, stored=13 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=5)
+asgn1_driver: read 13 bytes
+asgn1_driver: device closed
+Read result: [KERNEL]hello
+[PASS] Mode 0 adds [KERNEL] prefix
+
+===== 5. MODE 1 - ECHO MODE =====
+asgn1_driver: device opened (open_count=6)
+asgn1_driver: ioctl SET_MODE mode=1
+SET_MODE: 1 PASS
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=7)
+asgn1_driver: write 5 bytes, mode=1, stored=5 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=8)
+asgn1_driver: read 5 bytes
+asgn1_driver: device closed
+Read result: hello
+[PASS] Mode 1 returns original data
+
+===== 6. RESET BUFFER =====
+asgn1_driver: device opened (open_count=9)
+asgn1_driver: write 8 bytes, mode=1, stored=8 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=10)
+asgn1_driver: read 8 bytes
+asgn1_driver: device closed
+Before reset: reset_me
+asgn1_driver: device opened (open_count=11)
+asgn1_driver: ioctl RESET_BUFFER
+RESET_BUFFER: PASS
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=12)
+asgn1_driver: device closed
+After reset: ''
+[PASS] RESET_BUFFER cleared buffer
+
+===== 7. STATS AFTER RESET =====
+asgn1_driver: device opened (open_count=13)
+asgn1_driver: ioctl GET_STATS
+asgn1_driver: device closed
+GET_STATS:
+  open_count      = 13
+  write_count     = 0
+  read_count      = 0
+  buffer_len      = 0
+  last_write_size = 0
+[PASS] write_count reset to 0
+[PASS] read_count reset to 0
+[PASS] buffer_len reset to 0
+[PASS] last_write_size reset to 0
+
+===== 8. UNLOAD MODULE =====
+asgn1: driver unloaded
+[PASS] asgn1_driver unloaded
+[PASS] module removed from lsmod
+[PASS] /dev/asgn1 removed
+
+===== 9. DMESG =====
+asgn1: driver loaded, major=241
+asgn1_driver: device opened (open_count=1)
+asgn1_driver: ioctl GET_VERSION
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=2)
+asgn1_driver: ioctl GET_STATS
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=3)
+asgn1_driver: ioctl SET_MODE mode=0
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=4)
+asgn1_driver: write 5 bytes, mode=0, stored=13 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=5)
+asgn1_driver: read 13 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=6)
+asgn1_driver: ioctl SET_MODE mode=1
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=7)
+asgn1_driver: write 5 bytes, mode=1, stored=5 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=8)
+asgn1_driver: read 5 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=9)
+asgn1_driver: write 8 bytes, mode=1, stored=8 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=10)
+asgn1_driver: read 8 bytes
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=11)
+asgn1_driver: ioctl RESET_BUFFER
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=12)
+asgn1_driver: device closed
+asgn1_driver: device opened (open_count=13)
+asgn1_driver: ioctl GET_STATS
+asgn1_driver: device closed
+asgn1: driver unloaded
+
+========================================
+PASS = 18
+FAIL = 0
+========================================
+TASK 1 RESULT: PASS

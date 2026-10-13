@@ -1,0 +1,77 @@
+ ASSIGNMENT 1 - TASK 2 COUNTER TEST
+========================================
+
+===== 1. LOAD MODULE =====
+counter_driver: loaded
+counter_driver: /dev/counter created
+counter_driver: /proc/counter_info created
+[PASS] counter_driver loaded
+
+===== 2. DEVICE CHECK =====
+counter_driver 16384 0 - Live 0x7f005000 (O)
+125 counter
+crw-------    1 root     0          10, 125 Oct 13 13:54 [1;35m/dev/counter[m
+[PASS] /dev/counter exists
+[PASS] /proc/counter_info exists
+
+===== 3. PROC BEFORE WRITE =====
+Current counter: 0
+Total reads: 0
+Total writes: 0
+[PASS] initial counter = 0
+
+===== 4. WRITE 100 =====
+Current counter: 100
+Total reads: 0
+Total writes: 1
+[PASS] write 100 sets counter to 100
+
+===== 5. RESET COUNTER =====
+Current counter: 0
+Total reads: 0
+Total writes: 2
+[PASS] write 0 resets counter
+
+===== 6. AUTO-INCREMENT READ =====
+Read #1 = 0
+Read #2 = 1
+Read #3 = 2
+[PASS] read sequence is 0, 1, 2
+
+===== 7. SET 100 AND READ =====
+Read result = 100
+[PASS] set/read 100
+
+===== 8. RESET 0 AND READ =====
+Read result = 0
+[PASS] reset/read 0
+
+===== 9. INVALID INPUT =====
+[PASS] negative value rejected with error
+sh: write error: Invalid argument
+[PASS] non-numeric value rejected with error
+sh: write error: Invalid argument
+
+===== 10. FINAL PROC INFO =====
+Current counter: 1
+Total reads: 5
+Total writes: 4
+
+===== 11. UNLOAD MODULE =====
+counter_driver: unloaded
+[PASS] counter_driver unloaded
+[PASS] counter_driver removed from lsmod
+[PASS] /dev/counter removed
+[PASS] /proc/counter_info removed
+
+===== 12. DMESG =====
+counter_driver: loaded
+counter_driver: /dev/counter created
+counter_driver: /proc/counter_info created
+counter_driver: unloaded
+
+========================================
+PASS = 15
+FAIL = 0
+========================================
+TASK 2 RESULT: PASS
